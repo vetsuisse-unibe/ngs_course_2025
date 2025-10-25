@@ -1,3 +1,8 @@
+---
+layout: default
+title: Day 1 — UNIX Exercises
+---
+
 ```markdown
 # UNIX Exercises
 

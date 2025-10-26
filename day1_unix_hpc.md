@@ -3,7 +3,6 @@ layout: default
 title: Day 1 — UNIX Exercises
 ---
 
-```markdown
 # UNIX Exercises
 
 In this practical, you will log in to the **Bioinformatics server** (`login8.hpc.binf.unibe.ch`) and perform all the exercises directly on the server.

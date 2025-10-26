@@ -1,4 +1,4 @@
-## Exercises
+## Unix Exercises
 In this Practical we will login into the Bioinformatics server (login8.hpc.binf.unibe.ch) and do all the exercises on the server.
 
 In order to login into the Bioinformatics cluser you need to be connected to unibe network via VPN or eduroam.

@@ -23,6 +23,9 @@ The HPC system has many compute nodes (machines) where jobs are executed. To get
 clusterstate.sh
 ```
 This script displays the current state of all nodes managed by the SLURM scheduler.
+
+The output of the command is a table with the following columns:
+
 | Column | Description |
 |---------|-------------|
 | `NODELIST` | Node name (machine identifier) |
@@ -30,6 +33,8 @@ This script displays the current state of all nodes managed by the SLURM schedul
 | `CPU_LOAD` | Average CPU load on that node |
 | `FREEMEMORY` | Approximate available memory (in MB) |
 | `STATE` | Current node status — e.g. `idle`, `mixed`, `down`, `completing` |
+
+
 | State | Meaning |
 |--------|----------|
 | `idle` | Node is available for new jobs |

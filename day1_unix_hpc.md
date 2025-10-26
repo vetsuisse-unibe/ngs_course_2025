@@ -66,87 +66,135 @@ Check your login and password details in the **students-passwords** text file on
 ## 1️⃣ Try Some Basic UNIX Commands
 
 Display your user name  
+```bash
 whoami
+```
 
 Show the current working directory  
+```bash
 pwd
+```
 
 It should show something like:  
-/home/student36  
+```text
+/home/student36
+```
 This is your **home directory**.
 
 List all files and directories  
+```bash
 ls
+```
 
 List with details  
+```bash
 ls -l
+```
 
 List all files including hidden ones  
+```bash
 ls -a
+```
 
 ---
 
 ## 2️⃣ Navigating the File System
 
 Change directory  
+```bash
 cd <directory_name>
+```
 
 Go up one directory  
+```bash
 cd ..
+```
 
 Return to your home directory  
+```bash
 cd
+```
 
 Show your current location again  
+```bash
 pwd
+```
 
 ---
 
 ## 3️⃣ Working with Files and Directories
 
 Create a new directory  
+```bash
 mkdir test_dir
+```
 
 Change into it  
+```bash
 cd test_dir
+```
 
 Create an empty file  
+```bash
 touch myfile.txt
+```
 
 View the file  
+```bash
 cat myfile.txt
+```
 
 Copy the file  
+```bash
 cp myfile.txt copy.txt
+```
 
 Rename or move the file  
+```bash
 mv copy.txt renamed.txt
+```
 
 Delete the file  
+```bash
 rm renamed.txt
+```
 
 Go up one level and remove the directory  
-cd ..  
+```bash
+cd ..
+```
+```bash
 rmdir test_dir
+```
 
 ---
 
 ## 4️⃣ Viewing and Searching File Contents
 
 Display the first 10 lines  
+```bash
 head <filename>
+```
 
 Display the last 10 lines  
+```bash
 tail <filename>
+```
 
 Search for a word  
+```bash
 grep "pattern" <filename>
+```
 
 Count lines, words, and characters  
+```bash
 wc <filename>
+```
 
 Display a file page by page  
-less <filename>  
+```bash
+less <filename>
+```
 (Press `q` to quit)
 
 ---
@@ -154,83 +202,133 @@ less <filename>
 ## 5️⃣ Redirection and Pipes
 
 Redirect output to a file  
+```bash
 ls -l > list.txt
+```
 
 Append output to a file  
+```bash
 echo "New line" >> list.txt
+```
 
 View the output file  
+```bash
 cat list.txt
+```
 
 Combine commands with pipes  
+```bash
 ls -l | grep ".txt"
+```
 
 Count how many `.txt` files exist  
+```bash
 ls -1 *.txt | wc -l
+```
 
 ---
 
 ## 6️⃣ File Permissions
 
 Check file permissions  
+```bash
 ls -l
+```
 
 Change permissions (add execute permission)  
+```bash
 chmod +x script.sh
+```
 
 Remove write permission  
+```bash
 chmod -w myfile.txt
+```
 
 Make a file readable and writable only to you  
+```bash
 chmod 600 private.txt
+```
 
 ---
 
 ## 7️⃣ Compression and Archiving
 
 Compress a file  
+```bash
 gzip myfile.txt
+```
 
 Decompress it  
+```bash
 gunzip myfile.txt.gz
+```
 
 Create a tar archive  
+```bash
 tar -cvf myarchive.tar directory_name/
+```
 
 Extract a tar archive  
+```bash
 tar -xvf myarchive.tar
+```
 
 Compress a tar archive  
+```bash
 tar -czvf myarchive.tar.gz directory_name/
+```
 
 Extract a compressed tar archive  
+```bash
 tar -xzvf myarchive.tar.gz
+```
 
 ---
 
 ## 8️⃣ Disk Usage and File Size
 
 Check your current disk usage  
+```bash
 df -h
+```
 
 Check how much space a folder takes  
+```bash
 du -sh <folder_name>
+```
 
 Sort files by size  
+```bash
 ls -lhS
+```
 
 ---
 
 ## 9️⃣ Bonus: Useful Commands
 
-history – Show command history  
+```bash
+history – Show command history
+```
 man <command> – Show manual page for a command  
-clear – Clear the terminal screen  
-date – Show the current date and time  
-uptime – Show system uptime  
-top – Monitor processes in real time  
-df -h – Show disk usage  
+```bash
+clear – Clear the terminal screen
+```
+```bash
+date – Show the current date and time
+```
+```bash
+uptime – Show system uptime
+```
+```bash
+top – Monitor processes in real time
+```
+```bash
+df -h – Show disk usage
+```
+```bash
 du -sh <dir> – Show directory size
+```
 
 ---
 

@@ -35,16 +35,22 @@ Check your login and password details in the **students-passwords** text file on
 
 1. Start your **Visual Studio Code** application.  
 2. Click on the **Remote Explorer** icon (shown below) on the left side of the window.  
+
    ![VSC](images/vsc-1.png)
 3. A sub-window opens. Click **Connect to Host**.  
+
    ![VSC-2](images/vsc-2.png)
 4. In the next window, click **Add New SSH Host**.  
+
    ![VSC-3](images/vsc-3.png)
 5. Enter the login details as shown below (replace with your assigned student ID).  
+
    ![VSC-4](images/vsc-4.png)
 6. Click **Connect** and enter your password when prompted.  
+
    ![VSC-5](images/vsc-5.png)
 7. Open a new terminal by selecting **Terminal → New Terminal**.  
+
    ![VSC-6](images/vsc-6.png)
 
 ---

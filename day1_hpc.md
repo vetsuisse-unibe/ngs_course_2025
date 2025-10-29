@@ -80,14 +80,21 @@ You can see where the .gitconfig is stored using the below command
 ```shell
 git config --list --show-origin
 ```
-Create and initialize the repository
+## 4️⃣ Create and initialize the repository
+first create a directory called course and navigate into it. in
 
 ```shell
 mkdir course
 cd course
+```
+initialize the repository. This will create a .git directory in the current directory. and keep track of all the changes you make to the files in the repository. 
+```shell
 git init
-mkdir hpc-exercises
-cd hpc-exercises
+```
+create a directory called hpc-exercises and navigate into it. This is where we will be working on the exercises.
+```shell
+mkdir -p course/hpc-exercises
+cd course/hpc-exercises
 ```
 
 Create a .gitignore file for HPC-specific files which does need to be tracked or backedup.
@@ -103,9 +110,17 @@ Add and commit .gitignore
 ```shell
 git add .gitignore
 git commit -m "Initial commit: Add .gitignore for HPC output files"
-```
 
-## 4️⃣ Submitting Batch Jobs
+You home directory  directory structure will look like this at the end of the day:
+```text
+.
+└── course
+    └── hpc-exercises
+        └── scripts
+```
+There may also be other output files (like randomNumbers.txt) or configuration files (e.g., .gitconfig) inside the directory.
+
+## 5️⃣ Submitting Batch Jobs
 
 > *Learn how to write and submit SLURM batch scripts for reproducible analyses.*
 
@@ -116,8 +131,8 @@ open the VScode and create a new file called test.sh in the directory hpc-exerci
 First create the directory and then create the file.
 
 ```shell
-mkdir scripts
-cd scripts
+mkdir -p course/hpc-exercises/scripts
+cd course/hpc-exercises/scripts
 ```
 Copy the lines below and paste it into the file.
 

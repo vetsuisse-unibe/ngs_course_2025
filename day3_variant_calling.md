@@ -1,6 +1,5 @@
 # Variant Calling
 
-### Variant Calling
 
 For Variant calling we continue with the same Bull terrier dogs.
 One of the Bull Terrier dog suffers from Lethal acrodermatitis.
@@ -23,11 +22,9 @@ In the following exercise we will use [_picard tools_](https://broadinstitute.gi
 ```shell
 cd variantCalling
 mkdir markduplicates && cd markduplicates
-code markduplicates.sh
-
 ```
 
-Add the following lines to the script. Replace the email parameter with your own parameter.
+Create a new script file called markduplicates.sh and save it in the folder markduplicates. Add the following lines to the script. Replace the email parameter with your own email id.
 
  ```
 
@@ -52,9 +49,9 @@ gatk MarkDuplicates INPUT=BT134.sorted.bam OUTPUT=BT134.dedup.bam REMOVE_DUPLICA
 
 Question:
 1. Why are we marking the duplicates rather than removing them ?
-2. What info does the Metrics file contain ?
+2. What info does the metrics file contain ?
 
-#### Task
+### Task
 Repeat the same duplication marking with the BT012 genome bam file.
 
 ##### indexing the dedup file
@@ -80,7 +77,7 @@ samtools index BT012.dedup.bam
 
 ```
 
-#### deduplication file
+### Deduplication file
 If the deduplication step is taking two long, you can copy the dedup bam and index files from the courseb dir to your dir and you can go on to the  _HaplotypeCaller_ step.
 
 ```shell
@@ -91,13 +88,13 @@ cp /data/courses/courseB/variantCalling/BT134.dedup.bam.bai .
 
 ```
 
-#### Recalibration
+### 2️⃣ Recalibration
 
 The next step in variant calling base quality recalibration. Many studies showed that the raw Phred-scaled quality scores were frequently inaccurate and hece the [_BQSR_ tool](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR)  from  GATK recalibrates the base quality score to make them more accurately refelect the true error rate.
 
 As this step takes too long to finish we will skip this step for this exercises and move to variant calling with haplotypeCaller.
 
-#### HaplotypeCaller
+### 3️⃣ HaplotypeCaller
 [_GATK HaplotypeCaller_](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) calls both SNP and indel variants simultaneously via local de-novo assembly of haplotypes. Essentially, when this variant caller finds a region with signs of variation, it tosses out the old alignment information (from BWA MEM) and performs a local realignment of reads in that region.
 
 Create variants directory and create job script in the variant directory
@@ -108,7 +105,7 @@ mkdir variants && cd variants
 
 ```
 
-Create the below script with VScode, save and launch the job.
+Create the below script with VScode, save it as hapCall.sh and launch the job.
 
 ```
 
@@ -131,21 +128,20 @@ gatk HaplotypeCaller -R  ../refIdx/chr14.fa -I ../mapping/BT012.dedup.bam -I ../
 
 ```
 
-The output is _variant call format_ or VCF file which is a tab delimited text file containing informations for the all the variants the tool found.
+The output is _variant call format_ (VCF) file which is a tab delimited text file containing informations for the all the variants the tool found.
 
-#### Hard Filtering Variants
-
-In the next we will do hard filtering of variants using the statistical annotations that has produced haplotypeCaller. Each variant has statistical annotations like
+### 4️⃣ Hard Filtering Variants
+The next step is  to  hard filter variants based on the statistical data from HaplotypeCaller.Each variant has statistical annotations like
 - how many reads covered it,
 - how many reads covered each allele,
 - what proportion of reads were in forward vs reverse orientation
 - etc
-In the hard filtering we set threshold for several of these annotations, and filter the variants that have values below this threshold or above the set thresholds.
+The hard filtering process involves establishing thresholds for each annotation; any variant with a value that is either below or above the defined range will be filtered out.
 
-More information can be obtained on the [GATK hard filtering tutorial page](https: //gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants)
+More information can be obtained on the [GATK hard filtering tutorial page](https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants)
 
-##### SelectVariants
-Hard filtering is done for SNPs and Indels separately. So from the haplotypeCaller output VCF file first we will subset the SNPs and Indels using GATK's _SelectVariants_ tool.
+### 5️⃣ SelectVariants
+We perform hard filtering separately for SNPs and Indels. Therefore, the first step is to use GATK's _SelectVariants_ tool to subset the SNPs and Indels from the HaplotypeCaller output VCF file.
 
 In the variants folder create the following script.
 
@@ -171,11 +167,9 @@ gatk SelectVariants -V BT.vcf -select-type SNP -O BT.snps.vcf
 
 ```
 
-##### Variant Filtration
-Create the following script for filtering of Variants
-
+### Variant Filtration
+Generate the following variant filtering script
 ```
-
 # !/bin/bash
 # Slurm options
 # SBATCH --mail-user=<your.email@example.com>
@@ -196,8 +190,7 @@ gatk VariantFiltration -V BT.indels.vcf -O BT.flt.indels.vcf -filter "QD < 2.0" 
 
 ```
 
-Once the variants have been filtered we merge them to one single file for annotations. The vcfs are merged using GATK's _MergeVCFs_ tool
-
+Once the variants are filtered, we use GATK's _MergeVCFs_ tool to merge the VCF files back into a single output, preparing them for the next step: annotation, which adds the genomic context to each variant.
 ```
 
 # !/bin/bash
@@ -219,14 +212,18 @@ gatk MergeVcfs -I BT.flt.snps.vcf -I BT.flt.indels.vcf -O BT.flt.var.vcf
 
 ```
 
-##### Task
+### Task
 Use a Unix command to check:
 - total number of variants in the vcf file.
 - total number "PASS" variants in the vcf file.
 
-#### Variant annotation and effect prediction
- We will be using a software called [‘snpeff’](http: //snpeff.sourceforge.net/) to annotate and predict the effect of the variants.
- We will build an effect prediction database using our reference and annotation and then use that database to run effect prediction. This will give us a VCF file with an extra “ANN” field per variant, which will give us the effect of that variant.
+### 7️⃣ Variant annotation and effect prediction
+To determine the effect of the variants, we will employ [‘snpeff’](http: //snpeff.sourceforge.net/). This process requires two main steps:
+
+- Database Creation: Building a specialized effect prediction database based on our reference and annotation data.
+- Prediction Run: Running the variant file against this database.
+
+The final output is a VCF file where each variant entry includes a new 'ANN' field, providing its predicted functional consequence."
 
 The following script accomplishes two main tasks:
 
@@ -234,7 +231,6 @@ The following script accomplishes two main tasks:
 - Annotates the VCF file: It adds information from the Effect database to the variants in your VCF file, providing valuable context and insights.
 
 ```
-
 # !/bin/bash
 # Slurm options
 # SBATCH --mail-user=<your.email@example.com>
@@ -259,7 +255,6 @@ $snpEff download \
 $snpEff eff \
     -dataDir /home/<student>/variantCalling/variant \
     CanFam3.1.86 BT.flt.var.vcf > BT.ann.vcf
-
 ```
 
 The output VCF file has an extra field "ANN"
@@ -267,19 +262,15 @@ The output VCF file has an extra field "ANN"
 If the snpEff database fails to load the CanFam3.1.99 database. A copy the annotated VCF file  is available in /data/courses/courseB/variantCalling dir to do the below task.
 
 ```
-
 cp /data/courses/courseB/variantCalling/BT.ann.vcf .
-
 ```
 
-##### Task
+### Task
 1. use a unix command to check for ANN field in the VCF file.
 2. Use the following command to see if the variant implicated for the LAD in Bull terriers is found in the VCF file.
 
 ```
-
  awk '{if($2 == 5731405) print $_}'  BT.ann.vcf
-
 ```
 
 ##### Question

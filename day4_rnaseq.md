@@ -257,7 +257,7 @@ print(p, ntop=500)
 
 ```
 
-![PCAplot](PCAplot.png)
+![PCAplot](images/PCAplot.png)
 Plot 2: Mean expression against log-fold change. Genes with p-adjusted below alpha will be shown in red, all others in grey
 
 ```r
@@ -276,7 +276,7 @@ plotMA(res, alpha=0.05)
 
 ```
 
-![MAplot](MAplot.png)
+![MAplot](images/MAplot.png)
 Plot 3: Heatmap using the 50 most highly expressed genes
 
 ```r
@@ -314,7 +314,7 @@ heatmap.2(assay(rld)[select,], col = hmcol, trace="none", margin=c(10,6),labCol=
 
 ```
 
-![heatmap](heatmap.png)
+![heatmap](images/heatmap.png)
 
 **Optional task: Try to recreate the VOLCANO PLOT looking at the [manual](http: //bioconductor.org/packages/release/bioc/html/DESeq2.html).**
 
@@ -324,7 +324,6 @@ Now take a closer look at the results and the normalised count data:
 ```r
 head(res)
 head(counts(dds, normalized=TRUE))
-
 ```
 
 The log2FoldChange is approximately the mean of the normalised counts for condition 1 over the mean of the normalised counts for conditions 2 (“approximately”, because of the shrinkage explained in the lecture)
@@ -342,7 +341,6 @@ Let’s double-check that this really produces exactly the same results as befor
 
 ```r
 plot(res$log2FoldChange, TNBC_HER2$log2FoldChange, xlab='first analysis', ylab='second analysis')
-
 ```
 
 **Extra task: Perform some of the other pairwise comparisons that are possible for this dataset**

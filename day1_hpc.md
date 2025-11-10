@@ -6,10 +6,11 @@ In this session, you’ll learn how to use the **High-Performance Computing (HPC
 
 ## 1️⃣ Connecting to the HPC Cluster
 
-> *Learn how to log in to the cluster, access resources, and navigate the environment.*
+> **Learn how to log in to the cluster, access resources, and navigate the environment.**
 
 Login into the Bioinformatics server (login8.hpc.binf.unibe.ch)
- Use the remote login extension on Visual studio code and login into the bioinformatics server with your chosen username and password.
+
+Use the remote login extension on Visual studio code and login into the bioinformatics server with your chosen username and password.
 
 Open the Terminal and start the exercises.
 ---
@@ -43,6 +44,7 @@ The output of the command is a table with the following columns:
 | `completing` | Node is finishing current jobs |
 | `alloc` | Node is fully allocated to running jobs |
 
+**Questions:**
 - Identify which nodes are **idle** or **down**.  
 - Can you spot which nodes have the **highest CPU load** or **lowest memory**?  
 - **Discuss:** Why do some nodes show as *mixed* instead of *idle* or *alloc*?
@@ -51,22 +53,23 @@ The output of the command is a table with the following columns:
 
 > *Learn how to configure Git for version control.*
 
-Before starting the SLURM exercises, we'll set up a Git repository to track our work. git (version 2.43.7) is already installed on the HPC system. Check the version of git installed on your system.
+Before starting the SLURM exercises, we'll set up a _git repository_ to track our work.
+git (version 2.43.7) is already installed on the HPC system. Check the version of git installed on your system.
 
 ```shell
 git -v
 ```
-We'll use git command-line tools to create the repository.
+**We'll use git command-line tools to create the repository.**
 
-On the command line, Git commands follow this structure: `git verb options`.  
-- The `verb`  tells Git what action to perform (like `commit` or `push`), 
+On the command line, git commands follow this structure: `git verb options`.  
+- The `verb`  tells git what action to perform (like `commit` or `push`), 
 - while `options` provide extra details to modify the command's behavior.
 
  Lets configure the git environment on command line. You should have to do configure this only once on any given computer. We will use _git config_ command to set these variables.These configuration variables are put into a .gitconfig file and stored:
 
 - on Mac in /Users/\<YourMacusername\>/.gitconfig
-- on Windows in C:\Users\<YourWindowsUsername>\AppData\Local\Git\config/.gitconfig
-- on Linux in /home/<yourLoginnam>/.gticonfig
+- on Windows in C:\Users\\<YourWindowsUsername\>\AppData\Local\Git\config/.gitconfig
+- on Linux in /home/\<Yourusername\>/.gticonfig
 
 ```shell
 # Set your git username and email
@@ -84,6 +87,7 @@ git config --list --show-origin
 first create a directory called course and navigate into it. in
 
 ```shell
+cd
 mkdir course
 cd course
 ```
@@ -93,91 +97,96 @@ git init
 ```
 create a directory called hpc-exercises and navigate into it. This is where we will be working on the exercises.
 ```shell
-mkdir -p course/hpc-exercises
-cd course/hpc-exercises
+mkdir -p hpc-exercises/scripts
+cd hpc-exercises
 ```
+Create a .gitignore file to exclude non-essential HPC files from being tracked or backed up.
 
-Create a .gitignore file for HPC-specific files which does need to be tracked or backedup.
-
-Open a new file with VSCode. Now add the following lines and save the file as .gitignore in the directory hpc-exercises
+1. Open a new text file in VS Code (File Menu $\rightarrow$ New Text File).
+2. Add the necessary exclusion lines (provided below/elsewhere).
+3. Save this file as .gitignore directly within your hpc-exercises directory
 ```
 *.out
 *.err
 *.txt
 slurm-*.out
 ```
-Add and commit .gitignore
+Track and save the changes to the .gitignore file in your repository. Which means we to need add and commit the file.
+
 ```shell
 git add .gitignore
 git commit -m "Initial commit: Add .gitignore for HPC output files"
 
 You home directory  directory structure will look like this at the end of the day:
 ```text
-.
+/home/<student_name>
 └── course
     └── hpc-exercises
         └── scripts
 ```
-There may also be other output files (like randomNumbers.txt) or configuration files (e.g., .gitconfig) inside the directory.
-
+You can use the tree command to view the directory structure.
+```shell
+tree .
+```
 ## 5️⃣ Submitting Batch Jobs
 
 > *Learn how to write and submit SLURM batch scripts for reproducible analyses.*
 
 ### Exercise 1
-In this exercise, we will create a simple Bash script, run it locally, and then submit it to the SLURM scheduler using sbatch. We’ll use the VScode command to write the script directly from the command line. 
+In this exercise, we’ll write a simple Bash script using the VS Code command, run it on our local machine, and then submit it to the SLURM scheduler using the sbatch command.
 
-open the VScode and create a new file called test.sh in the directory hpc-exercises/scripts. 
-First create the directory and then create the file.
+1. Open a new text file in VS Code (File Menu $\rightarrow$ New Text File).
+2. Copy the lines below and paste it into the file.
 
 ```shell
-mkdir -p course/hpc-exercises/scripts
-cd course/hpc-exercises/scripts
-```
-Copy the lines below and paste it into the file.
-
-```text
 #!/bin/bash
 hostname
 date
 sleep 30
 date
 ```
-Save the file as **test.sh** under the scripts directory and make it executable.
+3. Save the file as **test.sh** under the courses/hpc-exercises/script scripts directory and make it executable using the _chmod_ command on the terminal.
 
 ```shell
 ls -l test.sh
 chmod +x test.sh
 ls -l test.sh
 ```
-Now that you created a new script, add it to your git repository and commit it.
+Now that you created a new script, add it to your git repository and commit it. Doing this will help you keep track of the changes you make to the script.
 ```shell
 git add test.sh
 git commit -m "Add initial test script"
 ```
-
-Run locally (for demo purposes only. Real work should be submitted to Slurm to run on computing nodes.)
+Run locally on the login node (for demo purposes only. Real work should be submitted to Slurm to run on computing nodes.)
 ```shell
 ./test.sh
 ```
 
 Submit to Slurm
 ```shell
-sbatch -p pcourseb test.sh
+sbatch -p pcourseb  -t 00:05:00 test.sh
 ```
+- `sbatch` is the SLURM command to submit jobs
+- `-p pcourseb` is the partition to submit the job to
+- `-t 00:05:00` is the time limit for the job
 
 Check the job status
 ```shell
 squeue -u $USER
 ```
-- `sbatch` is the SLURM command to submit jobs
-- `-u $USER` is an environment variable in Unix/Linux systems that automatically contains the username of the currently logged-in user
+- `squeue` is the SLURM command to check the status of jobs
+- `-u $USER` is a standard Unix environment variable (system wide placeholder) that automatically substitutes your current login username (student43, student44, etc).
 
 Questions:
 1. What is the job ID of the submitted script.
 2. Where is the output of the job ?
-3. Check the Git status - are any new files created that aren't tracked? (use git status)
-4. What does the command git log --oneline do ?
+3. Check the _git status_ - are any new files created that aren't tracked? (use git status)
+4. What does the command _git log --oneline_ do ?
+
+```shell
+git status
+git log --oneline
+```
 
 ### Exercise 2: Random Number Generation
 

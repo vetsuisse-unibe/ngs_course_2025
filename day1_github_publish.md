@@ -8,8 +8,6 @@ In this session, you’ll learn how to **prepare results**, **document your anal
 
 - Organize outputs and write clear documentation (README/Markdown).
 - Use Git to version, tag, and sync your repository with GitHub.
-- Publish a simple website with **GitHub Pages**.
-- Share your work responsibly with **licenses**, **citations**, and **releases/DOIs**.
 
 ---
 

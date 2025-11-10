@@ -196,15 +196,17 @@ touch exampleFile2
 ls
 ls -l
 ```
-| Command | Description                                           |
-| ------- | ----------------------------------------------------- |
-| `ls -a` | List all files, including hidden ones                 |
+```text
+Different example parameters used with ls
+| Command | Description |
+|----------|-------------|
+| `ls -a` | List all files, including hidden ones |
 | `ls -h` | Show file sizes in human-readable format (KB, MB, GB) |
-| `ls -l` | Long format — permissions, owner, size, date          |
-| `ls -S` | Sort files by size                                    |
-| `ls -t` | Sort files by modification time                       |
-| `ls -1` | Display one file per line                             |
-
+| `ls -l` | Long format — permissions, owner, size, date |
+| `ls -S` | Sort files by size |
+| `ls -t` | Sort files by modification time |
+| `ls -1` | Display one file per line |
+```
 2. *Parameters for remove command*
 ```shell
 rm exampleFile1
@@ -236,29 +238,25 @@ cat ListRootDir.txt
 ### 7️⃣ Wildcards
 
 wildcard is a symbol that is used to represent one or more characters. Example wildcards are as follows
-* Zero or more characters
-? Any single character.
+- * Zero or more characters
+- ? Any single character.
 
 In the following examples you can test some of these wildcard characters
 
 1. Create a new folder
-
 ```bash
 mkdir wildCardTesting
 ```
-
 2. Change directory
 ```shell
 cd wildCardTesting
 touch test1.txt
 touch test2.txt
 ```
-
 3. Create several files with a single command
 ```shell
 touch test3.txt test4.txt test1.csv test2.csv test3.csv test4.csv
 ```
-
 4. Count the number of files using the pipes ( | symbol)
 
 ```bash

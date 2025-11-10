@@ -1,7 +1,13 @@
 ## Unix Exercises
-In this Practical we will login into the Bioinformatics server (login8.hpc.binf.unibe.ch) and do all the exercises on the server.
 
-In order to login into the Bioinformatics cluser you need to be connected to unibe network via VPN or eduroam.
+### 🧠 Learning Objectives
+
+- Connect to the university HPC cluster using VPN, eduroam, and SSH (via VS Code).
+- Work efficiently on a remote server using VS Code’s Remote SSH tools.
+- Navigate the Unix file system using basic shell commands.
+- Manage files and permissions on a Unix system.
+- Inspect system information and environment variables.
+
 ###  1️⃣ Network Connection
 
 #### VPN

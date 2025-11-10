@@ -136,7 +136,7 @@ tree .
 In this exercise, we’ll write a simple Bash script using the VS Code command, run it on our local machine, and then submit it to the SLURM scheduler using the sbatch command.
 
 1. Open a new text file in VS Code (File Menu $\rightarrow$ New Text File).
-2. Copy the lines below and paste it into the file.
+2. Copy the lines below and paste it into the file. 
 
 ```shell
 #!/bin/bash
@@ -145,7 +145,14 @@ date
 sleep 30
 date
 ```
-3. Save the file as **test.sh** under the courses/hpc-exercises/script scripts directory and make it executable using the _chmod_ command on the terminal.
+**Notes:** 
+- `#!/bin/bash` is the shebang line that tells the system this is a bash script
+- `hostname` prints the name of the host (node) on which the script is running
+- `date` prints the current date and time
+- `sleep 30` pauses the script for 30 seconds
+- `date` prints the current date and time again
+3. Save the file as **test.sh** under the courses/hpc-exercises/script scripts directory 
+4. Make it executable using the _chmod_ command on the terminal.
 
 ```shell
 ls -l test.sh
@@ -190,23 +197,24 @@ git log --oneline
 
 ### Exercise 2: Random Number Generation
 
-In this exercise, we will create a Bash script that generates random numbers and submit it to the SLURM scheduler using sbatch. We’ll use the VScode command to write the script.
+In this exercise, we will create a bash script that generates random numbers and submit it to the SLURM scheduler using sbatch. We’ll use the VScode command to write the script.
 
-open the VScode and create a new file called random.sh in the directory hpc-exercises/scripts. 
+1. Open a new text file in VS Code (File Menu $\rightarrow$ New Text File).
+2. Copy the lines below and paste it into the file.
 
-```text
+```shells
 #!/bin/bash
 for i in {1..1000}; do echo $RANDOM >>randomNumbers.txt; done
 sort -n randomNumbers.txt
 ```
-Save the file as **randomNumbers.sh** under the scripts directory and make it executable.
+3. Save the file as **randomNumbers.sh** under the scripts directory and make it executable using the chmod command.
 
 ```shell
 ls -l randomNumbers.sh
 chmod +x randomNumbers.sh
 ls -l randomNumbers.sh
 ```
-Now that you created a new script, add it to your git repository and commit it.
+Next, stage the new script file, and then commit it to your Git history.
 ```shell
 git add randomNumbers.sh
 git commit -m "Add random number generation script"
@@ -214,12 +222,35 @@ git commit -m "Add random number generation script"
 
 Submit to Slurm using _sbatch_
 ```shell
-sbatch -p pcourseb -N 1 -n 1 --mem 100 -t 2:00:00 -o randomNumbers.out -e randomNumbers.err random.sh
+sbatch -p pcourseb -N 1 -n 1 --mem 100 -t 2:00:00 -o randomNumbers.out -e randomNumbers.err randomNumbers.sh
 ```
 
 Check the job status
 ```shell
 squeue -u $USER
+```
+**Notes:**
+```text
+#SBATCH -p pcourseb            # Specifies which partition/queue to run the job on
+                               # In this case, it's using the 'pcourseb' partition
+
+#SBATCH -N 1                   # Requests 1 node for this job
+                               # A node is a complete computer in the cluster
+
+#SBATCH -n 1                   # Requests 1 CPU core/task
+                               # This defines how many parallel processes to run
+
+#SBATCH --mem 8G               # Requests 8 gigabytes of RAM for the job
+                               # This is the total memory allocation
+
+#SBATCH -t 0-2:00             # Sets the time limit for the job
+                               # Format is D-HH:MM (0 days, 2 hours, 0 minutes)
+
+#SBATCH -o randomIntegers.out          # Specifies where to write standard output (stdout)
+                               # Will create a file named 'randomIntegers.out'
+
+#SBATCH -e randomIntegers.err          # Specifies where to write standard error (stderr)
+                               # Will create a file named 'randomIntegers.err'
 ```
 
 Questions:
@@ -263,31 +294,6 @@ sbatch randomIntegers.slurm
 Check the job status
 ```shell
 squeue -u $USER
-```
-
-```text
-#!/bin/bash                     # Shebang line - tells the system this is a bash script
-
-#SBATCH -p pcourseb            # Specifies which partition/queue to run the job on
-                               # In this case, it's using the 'pcourseb' partition
-
-#SBATCH -N 1                   # Requests 1 node for this job
-                               # A node is a complete computer in the cluster
-
-#SBATCH -n 1                   # Requests 1 CPU core/task
-                               # This defines how many parallel processes to run
-
-#SBATCH --mem 8G               # Requests 8 gigabytes of RAM for the job
-                               # This is the total memory allocation
-
-#SBATCH -t 0-2:00             # Sets the time limit for the job
-                               # Format is D-HH:MM (0 days, 2 hours, 0 minutes)
-
-#SBATCH -o randomIntegers.out          # Specifies where to write standard output (stdout)
-                               # Will create a file named 'randomIntegers.out'
-
-#SBATCH -e randomIntegers.err          # Specifies where to write standard error (stderr)
-                               # Will create a file named 'randomIntegers.err'
 ```
 
 Questions:

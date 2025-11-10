@@ -8,9 +8,9 @@ In this session, you’ll learn how to use the **High-Performance Computing (HPC
 
 > **Learn how to log in to the cluster, access resources, and navigate the environment.**
 
-Login into the Bioinformatics server (login8.hpc.binf.unibe.ch)
+- Login into the Bioinformatics server (login8.hpc.binf.unibe.ch)
 
-Use the remote login extension on Visual studio code and login into the bioinformatics server with your chosen username and password.
+- Use the remote login extension on Visual studio code and login into the bioinformatics server with your chosen username and password.
 
 Open the Terminal and start the exercises.
 ---

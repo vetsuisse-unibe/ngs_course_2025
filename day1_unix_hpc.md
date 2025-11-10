@@ -257,10 +257,10 @@ touch test2.txt
 ```shell
 touch test3.txt test4.txt test1.csv test2.csv test3.csv test4.csv
 ```
-4. Count the number of files using the pipes ( | symbol)
+4. Count the number of files using the pipes ( \| symbol)
 
 ```bash
-wc –l counts the number of lines in the input
+wc –l 
 ```
 
 ```shell

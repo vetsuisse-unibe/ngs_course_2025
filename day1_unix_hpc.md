@@ -196,17 +196,15 @@ touch exampleFile2
 ls
 ls -l
 ```
-```text
-Different example parameters used with ls
-| Command | Description |
-|----------|-------------|
-| `ls -a` | List all files, including hidden ones |
+| Command | Description                                           |
+| ------- | ----------------------------------------------------- |
+| `ls -a` | List all files, including hidden ones                 |
 | `ls -h` | Show file sizes in human-readable format (KB, MB, GB) |
-| `ls -l` | Long format — permissions, owner, size, date |
-| `ls -S` | Sort files by size |
-| `ls -t` | Sort files by modification time |
-| `ls -1` | Display one file per line |
-```
+| `ls -l` | Long format — permissions, owner, size, date          |
+| `ls -S` | Sort files by size                                    |
+| `ls -t` | Sort files by modification time                       |
+| `ls -1` | Display one file per line                             |
+
 2. *Parameters for remove command*
 ```shell
 rm exampleFile1

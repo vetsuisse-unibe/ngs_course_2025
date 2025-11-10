@@ -24,51 +24,78 @@ In this session, you’ll learn how to **prepare results**, **document your anal
 ## 2️⃣ Exercise 1: GitHub Setup
 
 ### Create a New GitHub Repository
-1. Visit github.com and log in
-2. Click the '+' icon in the top right
-3. Select 'New repository'
-4. Name it 'bioinformatics-exercises' or 'Sequencing-course-exercises' or choose a name repository that clearly reflects its purpose or content.(Bad:my-Project, my-first-repository etc)
-5. Leave it public
-6. Don't initialize with README
-7. Copy the repository SSH URL
+1. **Go to GitHub and Sign In:** Navigate to github.com and enter your username and password. If you are a first time user, sign up and login.
+2. **Start a New Repository:**
+  - Click the plus sign (+) icon located in the top-right corner of the page.
+  - Select New repository from the dropdown menu.
+3. **Choose a Good Name:**
+  - In the "Repository name" field, enter a name that clearly describes the content of the project.
+  - Good Examples: bioinformatics-exercises, Sequencing-course-exercises,etc
+  - Avoid: Names like my-Project or test-repo
+4. **Set Visibility:** Leave the repository set to Public.
+5. **Skip the README:** Ensure the option "Add a README file" is unchecked. (You'll add files later.)
+6. **Final Step:** Click the green Create repository button.
+7. **Get the SSH Address:** On the next screen, find the area showing the repository address. Make sure the SSH tab is selected, and then copy the URL provided (it will start with git@github.com:...).
 
-You just created your first scientific notebook on GitHub!. Feel free to store all your other code and projects here too - it's like having unlimited digital lab notebooks with automatic backup. Generally, keep one GitHub repository per analysis project.
+You just created your first scientific notebook on GitHub!. Feel free to store all your other code and projects here too - it's like having unlimited digital lab notebooks with automatic backup. **Generally, keep one GitHub repository per analysis project.**
 
 ### Configure Git on HPC Cluster (Bioinformatics server)
-Use remote SSH login and connect to the IBU cluster (login8.hpc.binf.unibe.ch).
+- Use the remote login extension on Visual studio code and login into the bioinformatics server (login8.hpc.binf.unibe.ch) with your chosen username and password.
 
-### Set Up Authentication (Important!)
-To push your local repository to GitHub securely, we will use SSH authentication. SSH uses a special key to verify who you are.You generate a key pair on your computer, add the public key to GitHub. GitHub uses this to verify your identity everytime you try to add/update files to the remote  repository.  It also makes it easier to update GitHub automatically. This is helpful for scripts and large datasets.
+#### Set Up Authentication (Important!)
+To securely link your local git repository to GitHub, we use SSH authentication. Think of SSH as a digital keycard system:
+- You create a unique key pair on your computer.
+
+- You give GitHub the Public Key (like registering your keycard).
+
+- Every time you try to push new scripts or large processed datasets to your repository, GitHub instantly checks your local computer's Private Key to verify your identity.
+
+This method is more secure than using a password and makes updating GitHub much faster and easier for both scripts and high-volume data files.
 
 ```shell
 # Generate SSH key
 ssh-keygen -t ed25519 -C "your.email@example.com"
-
-# Display your public key (copy this output)
-cat ~/.ssh/id_ed25519.pub
 ```
 -t ed25519: Specifies the type of key (Ed25519 is a modern, secure algorithm)
 
 When you run this, it will:
-- Ask where to save the key (default location is good)
+- Ask where to save the key. Default location for eg. (/home/\<username\>/.ssh/id_ed25519)is good so just press _ENTER_
 - Ask for a passphrase (optional but recommended for security)
-A passphrase is like a password but typically longer and used to encrypt your SSH private key. If you don't want to set it just type _ENTER_. If you set please make sure you remember it or store it somewhere.
+A passphrase is like a password but typically longer and used to encrypt your SSH private key. If **you don't want to set it just type _ENTER_**. If you set please make sure you remember it or store it somewhere. **If you set a passphrase, you will be prompted to enter it every time you push to GitHub.**
 
-Then:
-1. Go to GitHub.com → Settings → SSH and GPG keys → New SSH key
-2. Paste your public key and save
-3. Use SSH URL when adding remote (git@github.com:username/repository.git)
+```shell
+# Display your public key (copy this output)
+cat ~/.ssh/id_ed25519.pub
+```
+
+#### Linking Your Secure Key to GitHub
+This process allows GitHub to recognize your computer instantly and securely when you try to upload files.
+
+1. **Open GitHub Settings:**
+  - Navigate to GitHub.com and make sure you are logged in.
+  - Click your profile picture (top-right corner), and select Settings.
+
+2. **Go to Key Management:**
+  - In the left sidebar menu, find and click SSH and GPG keys.
+  - Click the New SSH key button
+
+3. **Upload Your Key:**
+  - Give your key a descriptive Title (e.g., "My Laptop" or "HPC Access").
+  - In the large "Key" field, paste the entire contents of your Public SSH Key. (cat ~/.ssh/id_ed25519.pub)
+  - Click the green Add SSH key button to save it.
+4. **Use the Right Address:**
+  - When you connect your local project to GitHub, always use the SSH URL format (it starts with git@github.com:...) instead of the standard HTTPS URL.
 
 ---
 
-## 3️⃣ Exercise 2: Connect Local to Remote
+## 3️⃣ Exercise 2: Connect Local git repository to Remote GitHub.
 
 ### Link Your HPC Repository
 ```shell
 # Navigate to your existing repository
 cd hpc-exercises
 
-# Add remote repository (replace with your URL that copy it from your github repository page )
+# Add remote repository (replace 'git@github.com:<username>/sequencencing-exercises.git' with your URL that copy it from your github repository page )
 git remote add origin git@github.com:<username>/sequencencing-exercises.git
 
 # Verify remote was added

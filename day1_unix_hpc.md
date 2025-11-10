@@ -6,7 +6,8 @@
 - Work efficiently on a remote server using VS Code’s Remote SSH tools.
 - Navigate the Unix file system using basic shell commands.
 - Manage files and permissions on a Unix system.
-- Inspect system information and environment variables.
+- Apply basic UNIX text manipulation to real biological datasets.
+- Combine commands using **pipes (`|`)** for efficient data processing.  
 
 ###  1️⃣ Network Connection
 
@@ -245,8 +246,10 @@ In the following examples you can test some of these wildcard characters
 
 1. Create a new folder
 ```bash
+cd 
 mkdir wildCardTesting
 ```
+Run the _cd_ command to make sure you are in the home/user directory.
 2. Change directory
 ```shell
 cd wildCardTesting
@@ -266,7 +269,6 @@ wc –l
 ```shell
 ls -l | wc -l
 ```
-
 5. Try using the following wild cards
 ```shell
 ls *
@@ -277,20 +279,12 @@ ls test[1-2].txt
 ls test[!3].*
 ```
 
-### 8️⃣ Subset a file with grep and awk
-### 🧠 Learning Outcomes
+### 8️⃣ Text Manipulation
 
-By the end of this exercise, you will be able to:
-
-- Use `grep`, `awk`, `cut`, and `sort` to extract and process text data.  
-- Work with **tab-delimited** files such as the NCBI RefSeq summary.  
-- Filter and count genome assemblies for a specific organism.  
-- Combine commands using **pipes (`|`)** for efficient data processing.  
-- Apply basic UNIX text manipulation to real biological datasets.  
-
-1. Create a new folder called GenomeStats to run the exercise.
+1. Create a new folder called GenomeStats in your home/user directory to run the exercise.
 
 ```shell
+cd 
 mkdir GenomeStats
 cd GenomeStats
 ```

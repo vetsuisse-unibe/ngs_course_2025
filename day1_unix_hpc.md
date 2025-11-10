@@ -182,7 +182,6 @@ pwd
 ```shell
 cd
 ```
-
 Always type “pwd” to locate yourself
 
 ### 5️⃣ Command arguments
@@ -197,7 +196,7 @@ touch exampleFile2
 ls
 ls -l
 ```
-
+```text
 Different example parameters used with ls
 | Command | Description |
 |----------|-------------|
@@ -207,14 +206,14 @@ Different example parameters used with ls
 | `ls -S` | Sort files by size |
 | `ls -t` | Sort files by modification time |
 | `ls -1` | Display one file per line |
-
+```
 2. *Parameters for remove command*
 ```shell
 rm exampleFile1
 rm -i exampleFile2
 ```
 
-Aliases are short forms used for commands.
+3. Aliases are short forms used for commands.
 ```shell
 alias rm=”rm -i”
 touch <exampleFile>

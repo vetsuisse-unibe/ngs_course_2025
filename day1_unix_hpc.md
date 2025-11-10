@@ -315,10 +315,19 @@ head -n 2 assembly_summary_refseq.txt | tail -n 1 | tr '\t' '\n' |nl |less
 #Press q to exit the less interface and come back to prompt
 ```
 
-6. We want to see how many dog assemblies have been submitted
+6. Lets check the number of dog genome assemblies that have been submitted to NCBI genome database.
 ```shell
 awk -F'\t' '$8 == "Canis lupus familiaris" && $6 == "9615"' assembly_summary_refseq.txt
 ```
+| Part                             | Meaning                                                                                                                  |   |                                                               |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | - | ------------------------------------------------------------- |
+| `awk`                            | Runs the AWK text processing tool.                                                                                       |   |                                                               |
+| `-F'\t'`                         | Sets the **field separator** to a tab character, so AWK treats each column as tab-separated.                             |   |                                                               |
+| `NR == 2`                        | `NR` means **Number of Record** — i.e., the current line number. This condition matches **the second line** in the file. |   |                                                               |
+| `                                |                                                                                                                          | ` | Logical **OR** — at least one of the conditions must be true. |
+| `$1 == "Canis lupus familiaris"` | Matches lines where the **first column** equals `"Canis lupus familiaris"`.                                              |   |                                                               |
+| `$6 == "9615"`                   | Matches lines where the **sixth column** equals `"9615"`.                                                                |   |                                                               |
+| `assembly_summary_refseq.txt`    | The input tab-delimited file.                                                                                            |   |                                                               |
 
 7. Want to keep the header line ?
 ```shell
@@ -327,37 +336,39 @@ awk -F'\t' 'NR == 2 || ($1 == "Canis lupus familiaris" && $6 == "9615")' assembl
 - NR == 2: NR is the current line number. NR == 2 allows the header line (second line) to be printed.
 - `||` : Logical OR, so it matches either the header line or lines that meet the specified condition.
 
-8. Lets do some statistics on available Genomes
+8. Lets do some statistics on available genomes.
+
 How many Animal and plant genomes are available
 cut command in unix can be used to select columns from tab de-limited files
-Only the column Group can selected using cut
+Only the column _Group_ can selected using cut
 ```shell
 cut -f25 assembly_summary_refseq.txt | less
 ```
 
-9. Now the pipes can be used to see the number of different refseq genomes available at NCBI
+9. By piping commands together (|), it's possible to get a count of the different RefSeq genomes at NCBI.
 ```shell
 cut -f25 assembly_summary_refseq.txt | sort | uniq -c
 ```
 
-10. We can skip the header line and before counting the genome groups in the column 25
+10. To count the genome groups in column 25, we first need to skip the header line. The command also lists them, sorted from the most frequent group to the least frequent.
 ```shell
-tail -n +3 assembly_summary_refseq.txt | cut -f25 | sort | uniq -c
+tail -n +3 assembly_summary_refseq.txt | cut -f25 | sort | uniq -c | sort -k1,1nr
 ```
 
-- tail -n +3 assembly_summary_refseq.txt: Outputs the file starting from the third line, effectively skipping the first two lines.
-- cut -f25: Extracts the 25th column from the remaining lines.
-- sort: Sorts the output to prepare for counting unique values.
-- uniq -c: Counts occurrences of each unique value in the 25th column
+- **tail -n +3** assembly_summary_refseq.txt: Outputs the file starting from the third line, effectively skipping the first two lines.
+- **cut -f25**: Extracts the 25th column from the remaining lines.
+- **sort**: Sorts the output to prepare for counting unique values.
+- **uniq -c**: Counts occurrences of each unique value in the 25th column
 
-*So how many mammalian genomes are available ?*
-Now use cut and pipe symbol to find the number of mammalian genomes available at NCBI. (Hint: check column 25 for vertebrate_mammalian)
-cut can be used to select more columns
+** How many mammalian genomes are available ?**
+
+11. You have already successfully found the frequency distribution of Genome Groups (column 25).
+Now, create a new, single command chain that starts by selecting the three columns (8, 25, 28), yet still produces the exact same final frequency count of the Genome Groups as your previous command.
 ```shell
-cut -f 8,25,28 assembly_summary_refseq.txt |less
+tail -n +3 assembly_summary_refseq.txt | cut -f 8,25,28 | ... assembly_summary_refseq.txt |less
 ```
-
-11. which Mammalian genome has the highest GC content
+**Challenge:** What modifications are necessary for the rest of the command chain (sort | uniq -c | sort -k1,1nr) to correctly process the Genome Group column, given that the input stream now only contains three fields?
+11. Identify the mammalian species from the dataset tha has the highest GC content
 ```shell
 cut -f 8,25,28 assembly_summary_refseq.txt | grep vertebrate_mammalian |sort -t$'\t' -nrk3 | less
 cut -f 8,25,28 assembly_summary_refseq.txt | grep vertebrate_mammalian |sort -t$'\t' -nrk3 | head -n 1
@@ -378,14 +389,15 @@ awk -F'\t' '$25 ~ /vertebrate_/ { total++; if ($28+0 < 40) count++ } END { print
 awk -F'\t' '$25 ~ /invertebrate/ { total++; if ($28+0 < 40) count++ } END { print (count/total)*100, count, total }' assembly_summary_refseq.txt
 ```
 
-- total++ If column 25 contains "vertebrate_" count total vertebrate genomes
-- $28+0 converts column 28 (GC%) to a number.
-- count++ if GC content (column 28) is < 40% Count these low-GC genomes
-- Output shows three numbers:Percentage of vertebrate genomes with GC<40%, Count of low-GC genomes, Total vertebrate genomes
+- **total++:** If column 25 contains "vertebrate_" count total vertebrate genomes
+- **$28+0:** converts column 28 (GC%) to a number.
+- **count++:** if GC content (column 28) is < 40% Count these low-GC genomes
+- **Output shows three numbers:**Percentage of vertebrate genomes with GC<40%, Count of low-GC genomes, Total vertebrate genomes
 
 ### 9️⃣ Sequence Content
 1. Create a new directory and copy the chromosome  human chromosome 22 from here: /data/courses/courseB/UnixEx
 ```shell
+cd
 mkdir <directoryname>
 cd <directoryname>
 cp /data/courses/courseB/UnixEx/chr22.fa.gz  .
@@ -395,9 +407,7 @@ cp /data/courses/courseB/UnixEx/chr22.fa.gz  .
 ```shell
 less chr22.fa.gz | grep -v ">" | wc | awk '{print $3-$1}'
 ```
-
-Do you understand the above command. If not try man wc for help.
-
+**Do you understand the above command. If not try man wc for help.**
 3. How many As, Cs, Gs, Ts and Ns are found in the entire chromosome?
 ```shell
 less chr22.fa.gz |grep -v ">" | grep -o [actgnACTGN] | sort | uniq -c
@@ -408,7 +418,12 @@ less chr22.fa.gz |grep -v ">" | grep -o [actgnACTGN] | sort | uniq -c
 less chr22.fa.gz | grep -v ">" | grep --color "GAATTC"
 ```
 
-5. Now can you count the number of EcoR1 site in the sequence ?
+5. Next, To  count the total number of EcoRI restriction sites in the sequence using the same _grep_ command, which of the following commands is correct? 
+```shell
+less chr22.fa.gz | grep -v ">" | grep -o "GAATTC" | wc -l 
+less chr22.fa.gz | grep -v ">" | grep -c "GAATTC" 
+```
+**Do you understand the difference between the two commands.**
 
 6. **For the brave.** Calculate the %GC content in the entire chromosome.
 

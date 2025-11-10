@@ -99,31 +99,33 @@ history
 ```shell
 man ls
 ```
+press q to exit the man page.
 
 9. *Run the following commands one after another*
 ```shell
 touch <exampleFile>
 ls
 ```
-replace <exampleFile> with your own filename (of choice)
+replace \<exampleFile\> with your own filename (of choice)
 
 10. *Print the contents of the file*
 ```shell
 cat <exampleFile>
 ```
-replace <exampleFile> from the before command.
+replace \<exampleFile\> from the before command.
 It should show no lines as it is an empty file.
 
 11. *Rename a file*
 ```shell
 mv <exampleFile> <exampleFile2>
 ```
-replace <exampleFile1> and <exampleFile2> with your own filename (of choice)
+replace \<exampleFile1\> and \<exampleFile2\> with your own filename (of choice)
 
 12. *Delete a file*
 ```shell
 rm <exampleFile2>
 ```
+replace \<exampleFile2\> from the before command.
 
 13. *Create a new folder/directory*
 ```shell
@@ -139,7 +141,6 @@ touch exampleDirectory/exampleFile
 ```shell
 rmdir exampleDirectory
 ```
-
 Worked? No! 😅
 That’s because rmdir only removes empty directories.
 
@@ -174,9 +175,10 @@ pwd
 4. *Go up by two directories*
 ```shell
 cd ../..
+pwd
 ```
 
-5. *Go to home directory*
+5. *Go to home or user directory*
 ```shell
 cd
 ```
@@ -187,11 +189,11 @@ Always type “pwd” to locate yourself
 
 Most programs in UNIX accept arguments that modify the program’s behavior. For example
 1. List the files in longer format
+
 ```shell
 ls -l
 touch exampleFile1
 touch exampleFile2
-
 ls
 ls -l
 ```

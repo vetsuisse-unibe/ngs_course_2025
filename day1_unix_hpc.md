@@ -238,7 +238,7 @@ cat ListRootDir.txt
 ### 7️⃣ Wildcards
 
 wildcard is a symbol that is used to represent one or more characters. Example wildcards are as follows
-- * Zero or more characters
+- \* Zero or more characters
 - ? Any single character.
 
 In the following examples you can test some of these wildcard characters

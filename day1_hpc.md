@@ -263,7 +263,7 @@ Questions:
 A better approach is defining resource allocation inside the shell script. This way you will not need to remember for the next time and simply re-run the analysis if required.
 Create a script with embedded SLURM parameters:
 
-Open a text file in VSCode, add the below lines and save as randomIntegers.slurm
+Open a text file in VSCode, add the below lines and save as **randomIntegers.slurm** under the courses/hpc-exercises/script scripts directory
 
 ```shell
 #!/bin/bash
@@ -307,9 +307,12 @@ Questions:
 
 
 ### Exercise 4: Job Control
-Create a long-running script to practice job cancellation:
+Create a long-running script to practice job cancellation.
 
-The scancel command can be used to cancel a job after its submitted. Write the following code and save the file as test4.sh. Submit the following job to SLURM. Wait for the job to start running (status R), then cancel it prematurely using the scancel command.
+The scancel command can be used to cancel a job after its submitted. 
+1. Write the following code and save the file as **test4.sh** under the courses/hpc-exercises/script scripts directory. 
+2. Submit  job to SLURM. 
+3. Wait for the job to start running (status R), then cancel it prematurely using the _scancel_ command.
 
 ```shell
 #!/bin/bash
@@ -347,6 +350,7 @@ Cancel the job using _scancel_
 ```shell
 scancel <job_id>
 ```
+You can also use _scancel -u $USER_ to cancel all jobs submitted by the user.
 
 ### Exercise 5: Job Monitoring
 Use sacct to analyze job performance

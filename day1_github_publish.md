@@ -118,7 +118,7 @@ This repository contains my work for the Bioinformatics course, including:
 - Mapping next-generation sequences
 - Variant calling
 - [Additional topics to be added]
-
+```
 ---
 
 ## 5️⃣ Prerequisites
@@ -141,7 +141,6 @@ git branch -M main
 
 # push your local main branch to the remote Github repository
 git push -u origin main
-
 ```
 
 ### Verify Publication

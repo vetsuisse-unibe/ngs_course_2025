@@ -116,6 +116,7 @@ Track and save the changes to the .gitignore file in your repository. Which mean
 ```shell
 git add .gitignore
 git commit -m "Initial commit: Add .gitignore for HPC output files"
+```
 
 You home directory  directory structure will look like this at the end of the day:
 ```text

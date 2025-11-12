@@ -62,16 +62,16 @@ Replace the email id with your own email id. If you don't want to be emailed abo
 ```shell
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="idxRef"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=5G
-# SBATCH --cpus-per-task=1
-# SBATCH -p pcourseb
-# SBATCH --output=idxRef_%j.out
-# SBATCH --error=idxRef_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="idxRef"
+#SBATCH --chdir=.
+#SBATCH --time=1:00:00
+#SBATCH --mem=5G
+#SBATCH --cpus-per-task=1
+#SBATCH -p pcourseb
+#SBATCH --output=idxRef_%j.out
+#SBATCH --error=idxRef_%j.err
 
 module add BWA/0.7.17-GCC-10.3.0
 module load SAMtools/1.13-GCC-10.3.0

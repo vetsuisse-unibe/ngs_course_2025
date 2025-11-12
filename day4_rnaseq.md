@@ -46,17 +46,17 @@ Write a job script and submit the mapping job to the cluster using sbatch.
 ```
 
 # !/bin/bash
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --time=3: 00: 00
-# SBATCH --mem=16G
-# SBATCH --output=hisat2.out
-# SBATCH --error=hisat2.err
-# SBATCH --job-name=hisat2
-# SBATCH --cpus-per-task=4
-# SBATCH --partition=pcourseb
-# SBATCH --output=RNAseq_map_%j.out
-# SBATCH --error=RNAseq_map_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --time=3:00:00
+#SBATCH --mem=16G
+#SBATCH --output=hisat2.out
+#SBATCH --error=hisat2.err
+#SBATCH --job-name=hisat2
+#SBATCH --cpus-per-task=4
+#SBATCH --partition=pcourseb
+#SBATCH --output=RNAseq_map_%j.out
+#SBATCH --error=RNAseq_map_%j.err
 
 module load HISAT2/2.2.1-gompi-2021a
 hisat2 -x /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.dna.chromosome.22  -1 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R1.fastq.gz -2 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R2.fastq.gz -S HER21.sam -p 4

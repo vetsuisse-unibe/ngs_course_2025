@@ -7,7 +7,7 @@ On the IBU bioinformatics server, make a new folder at course/variantCalling. Ne
 cd course
 mkdir variantCalling
 cd variantCalling
-mkdir refIdx
+mkdir -p refIdx mapping fastq_data scripts
 cd refIdx
 cp /data/courses/courseB/variantCalling/chr14.fa .
 ```

@@ -17,14 +17,15 @@ At the end of the day your directory should look like this:
 ├── course
 │   ├── variantCalling
 |   |   ├── refIdx
-|   |   |   └── chr14.fa
-|   |   |   └── chr14.fa.amb
-|   |   |   └── chr14.fa.ann
-|   |   |   └── chr14.fa.bwt
-|   |   |   └── chr14.fa.fai
-|   |   |   └── chr14.fa.pac
-|   |   |   └── chr14.fa.sa
-|   |   |   └── chr14.dict
+|   |   |    |── index.sh
+|   |   |    ├── chr14.fa
+|   |   |    └── chr14.fa.amb
+|   |   |    └── chr14.fa.ann
+|   |   |    └── chr14.fa.bwt
+|   |   |    └── chr14.fa.fai
+|   |   |    └── chr14.fa.pac
+|   |   |    └── chr14.fa.sa
+|   |   |    └── chr14.dict
 |   |   ├── fastq_data
 |   |   |   └── BT012_R1.fastq.gz
 |   |   |   └── BT012_R2.fastq.gz
@@ -137,7 +138,7 @@ samtools sort -@8 BT134.bam BT134.sorted.bam
 ### The Optimized Piping Solution
 We will leverage the Unix piping (|) feature to combine the alignment, conversion, and sorting into a single, highly efficient command. This avoids creating the intermediate SAM and unsorted BAM files on the disk, saving significant I/O time.
 
-The following integrated Bash/Slurm script performs the entire mapping workflow:
+The following integrated Bash/Slurm script performs the entire mapping workflow. Save this script in the scripts directory.
 ```shell
 # !/bin/bash
 # Slurm options

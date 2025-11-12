@@ -141,16 +141,16 @@ The following integrated Bash/Slurm script performs the entire mapping workflow:
 ```shell
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="mapping"
-# SBATCH --chdir=.
-# SBATCH --time=3: 00: 00
-# SBATCH --mem-per-cpu=2G
-# SBATCH --cpus-per-task=8
-# SBATCH -p pcourseb
-# SBATCH --output=mapping_%j.out
-# SBATCH --error=mapping_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="mapping"
+#SBATCH --chdir=.
+#SBATCH --time=3:00:00
+#SBATCH --mem-per-cpu=2G
+#SBATCH --cpus-per-task=8
+#SBATCH -p pcourseb
+#SBATCH --output=mapping_%j.out
+#SBATCH --error=mapping_%j.err
 
 module load BWA/0.7.17-GCC-10.3.0
 module load SAMtools/1.13-GCC-10.3.0
@@ -208,13 +208,13 @@ Below is the bash script to run flagstat on the BAM files
 ```
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="flagstat"
-# SBATCH --chdir=.
-# SBATCH --time=3: 00: 00
-# SBATCH --mem-per-cpu=2G
-# SBATCH --cpus-per-task=8
-# SBATCH -p pcourseb
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="flagstat"
+#SBATCH --chdir=.
+#SBATCH --time=3:00:00
+#SBATCH --mem-per-cpu=2G
+#SBATCH --cpus-per-task=8
+#SBATCH -p pcourseb
 
 module load SAMtools/1.13-GCC-10.3.0
 samtools flagstat -@ 8 ../mapping/BT012.sorted.bam > ../mapping/BT012_mapping_stats.txt
@@ -262,10 +262,10 @@ In order to see the mapping in an IGV browser we need  the bam file  and its cor
 Create a directory called _bamFiles_ on your local machine and download the bam files and index files to this directory from the below links:
 
 ```
-https: //cloud.bioinformatics.unibe.ch/index.php/s/5XnPbJLnXHay278
-https: //cloud.bioinformatics.unibe.ch/index.php/s/TrBtDEQrJ5k92x2
-https: //cloud.bioinformatics.unibe.ch/index.php/s/DKQgw29XHSDncrB
-https: //cloud.bioinformatics.unibe.ch/index.php/s/LJS5AG2S55P9Roe
+https://cloud.bioinformatics.unibe.ch/index.php/s/RnkHzP8JZaHSBog
+https://cloud.bioinformatics.unibe.ch/index.php/s/HcoWDAFCgkSrSFH
+https://cloud.bioinformatics.unibe.ch/index.php/s/4nqE2NA5iPX69gT
+https://cloud.bioinformatics.unibe.ch/index.php/s/MipC6fGSoA5c7TX
 ```
 
 Type IGV on the windows search tool and open the IGV browser.

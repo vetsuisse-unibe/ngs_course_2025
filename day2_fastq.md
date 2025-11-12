@@ -50,8 +50,9 @@ By the end of **Day 2**, your working directory should look like this:
 │   |   ├── clean_fastq_data
 │   |   |   └── SRR1027171_1.clean.fq.gz
 │   |   |   └── SRR1027171_2.clean.fq.gz
+│   |   |── trimmed_fastqc_output
 │   |   |   └── fastqc_trimmed.html
-|   |   |   └── fastqc*zip
+│   |   |   └── fastqc*zip
 
 ```
 
@@ -158,7 +159,7 @@ Are you back on the master node ? (check your prompt)
 
  module load FastQC/0.11.9-Java-11
 
-fastqc --extract SRR1027171_1.fastq.gz SRR1027171_2.fastq.gz --threads  4 -o ~/course/dataPreProcess/raw_fastqc_output
+fastqc --extract ~/course/dataPreProcess/raw_data/SRR1027171_1.fastq.gz ~/course/dataPreProcess/raw_data/SRR1027171_2.fastq.gz --threads  4 -o ~/course/dataPreProcess/raw_fastqc_output
 
 ```
 Sumbit the job to the cluster 
@@ -224,7 +225,7 @@ With VS Code, create and save a bash script named fastp_clean.sh to clean the fa
 
 module add fastp/0.23.4-GCC-10.3.0
 
-fastp -w 4 -q 15 -z 5 -l 50 -i SRR1027171_1.fastq.gz -I SRR1027171_2.fastq.gz -o ~/course/dataPreProcess/clean_fastq_data/SRR1027171_1.clean.fq.gz -O ~/course/dataPreProcess/clean_fastq_data/SRR1027171_2.clean.fq.gz
+fastp -w 4 -q 15 -z 5 -l 50 -i ~/course/dataPreProcess/raw_data/SRR1027171_1.fastq.gz -I ~/course/dataPreProcess/raw_data/SRR1027171_2.fastq.gz -o ~/course/dataPreProcess/clean_fastq_data/SRR1027171_1.clean.fq.gz -O ~/course/dataPreProcess/clean_fastq_data/SRR1027171_2.clean.fq.gz
 ```
 The arguments passed to cut-adapt were based on the following:  
 - Trim low-quality ends from reads before adapter removal if quality is less than 15 (-q 15)
@@ -236,7 +237,7 @@ The best is to run the fastp algorithm using a job script. This way you are reco
 
 ## 5️⃣ Running FastQC on Clean Reads
 - Now run fastqc on the cleaned fastq files. 
-- write the output to clean_fastqc_output directory for the results.
+- write the output to trimmed_fastqc_output directory for the results.
 - Use Live Preview to view the html output.
 - Record the changes you see in the cleaned and trimmed reads
 

@@ -231,30 +231,30 @@ The following script accomplishes two main tasks:
 - Annotates the VCF file: It adds information from the Effect database to the variants in your VCF file, providing valuable context and insights.
 
 ```
-# !/bin/bash
+#!/bin/bash
 # Slurm options
 #SBATCH --mail-user=<your.email@example.com>
 #SBATCH --mail-type=fail,end
 #SBATCH --job-name="Effdb"
 #SBATCH --chdir=.
-#SBATCH --time=1: 00: 00
+#SBATCH --time=1:00:00
 #SBATCH --mem=2G
 #SBATCH --partition=pcourseb
 #SBATCH --output=annVar_%j.out
 #SBATCH --error=annVar_%j.err
 
 # This line creates a shortcut called 'snpEff' for running the SnpEff program
-npEff="apptainer exec -B /home/<student>/variantCalling/variant /mnt/containers/apptainer/snpeff:5.3.0a--hdfd78af_0 snpEff"
+snpEff="apptainer exec -B /home/<student>/course/variantCalling/variants /mnt/containers/apptainer/snpeff:5.3.0a--hdfd78af_0 snpEff"
 
 # Download the dog genome database (CanFam3.1.99)
 $snpEff download \
-    -dataDir /home/<student>/variantCalling/variant \
+    -dataDir /home/<student>/course/variantCalling/variants \
     -v CanFam3.1.99
 
 # Annotate your variants using the downloaded database
 $snpEff eff \
-    -dataDir /home/<student>/variantCalling/variant \
-    CanFam3.1.86 BT.flt.var.vcf > BT.ann.vcf
+    -dataDir /home/<student>/course/variantCalling/variants \
+    CanFam3.1.86 ../variants/BT.flt.var.vcf > ../variants/BT.ann.vcf
 ```
 
 The output VCF file has an extra field "ANN"

@@ -244,7 +244,7 @@ The following script accomplishes two main tasks:
 #SBATCH --error=annVar_%j.err
 
 # This line creates a shortcut called 'snpEff' for running the SnpEff program
-snpEff="apptainer exec -B $TMPDIR: /tmp /mnt/containers/apptainer/snpeff: 5.2--hdfd78af_1 snpEff"
+snpEff="apptainer exec -B $TMPDIR:/tmp /mnt/containers/apptainer/snpeff:5.2--hdfd78af_1.1 snpEff"
 
 # Download the dog genome database (CanFam3.1.99)
 $snpEff download \

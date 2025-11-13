@@ -30,15 +30,15 @@ Create a new script file called markduplicates.sh and save it in the folder mark
 
  #!/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="markDuplicates"
-# SBATCH --chdir=.
-# SBATCH --time=3: 00: 00
-# SBATCH --mem=4G
-# SBATCH --partition=pcourseb
-# SBATCH --output=markDuplicates_%j.out
-# SBATCH --error=markDuplicates_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="markDuplicates"
+#SBATCH --chdir=.
+#SBATCH --time=3:00:00
+#SBATCH --mem=4G
+#SBATCH --partition=pcourseb
+#SBATCH --output=markDuplicates_%j.out
+#SBATCH --error=markDuplicates_%j.err
 
 module load GATK/4.2.6.1-GCCcore-10.3.0-Java-11
 module load Java/17.0.6
@@ -60,15 +60,15 @@ Repeat the same duplication marking with the BT012 genome bam file.
 
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="idxDedup"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=idxDedup_%j.out
-# SBATCH --error=idxDedup_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="idxDedup"
+#SBATCH --chdir=.
+#SBATCH --time=1:00:00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=idxDedup_%j.out
+#SBATCH --error=idxDedup_%j.err
 
 module load SAMtools/1.13-GCC-10.3.0
 
@@ -111,15 +111,15 @@ Create the below script with VScode, save it as hapCall.sh and launch the job.
 
  #!/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="varCalls"
-# SBATCH --chdir=.
-# SBATCH --time=3: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=hapCall_%j.out
-# SBATCH --error=hapCall_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="varCalls"
+#SBATCH --chdir=.
+#SBATCH --time=3:00:00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=hapCall_%j.out
+#SBATCH --error=hapCall_%j.err
 
 module load GATK/4.2.6.1-GCCcore-10.3.0-Java-11
 module load Java/17.0.6
@@ -149,15 +149,15 @@ In the variants folder create the following script.
 
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="selectSNVs"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=selectVar_%j.out
-# SBATCH --error=selectVar_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="selectSNVs"
+#SBATCH --chdir=.
+#SBATCH --time=1:00:00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=selectVar_%j.out
+#SBATCH --error=selectVar_%j.err
 
 module load GATK/4.2.6.1-GCCcore-10.3.0-Java-11
 module load Java/17.0.6
@@ -172,15 +172,15 @@ Generate the following variant filtering script
 ```
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="filterSNVs"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=fltVar_%j.out
-# SBATCH --error=fltVar_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="filterSNVs"
+#SBATCH --chdir=.
+#SBATCH --time=1:00:00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=fltVar_%j.out
+#SBATCH --error=fltVar_%j.err
 
 module load GATK/4.2.6.1-GCCcore-10.3.0-Java-11
 module load Java/17.0.6
@@ -195,15 +195,15 @@ Once the variants are filtered, we use GATK's _MergeVCFs_ tool to merge the VCF 
 
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="mergeSNVs"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=mergeVar_%j.out
-# SBATCH --error=mergeVar_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="mergeSNVs"
+#SBATCH --chdir=.
+#SBATCH --time=1:00:00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=mergeVar_%j.out
+#SBATCH --error=mergeVar_%j.err
 
 module load GATK/4.2.6.1-GCCcore-10.3.0-Java-11
 module load Java/17.0.6
@@ -233,15 +233,15 @@ The following script accomplishes two main tasks:
 ```
 # !/bin/bash
 # Slurm options
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --job-name="Effdb"
-# SBATCH --chdir=.
-# SBATCH --time=1: 00: 00
-# SBATCH --mem=2G
-# SBATCH --partition=pcourseb
-# SBATCH --output=annVar_%j.out
-# SBATCH --error=annVar_%j.err
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --job-name="Effdb"
+#SBATCH --chdir=.
+#SBATCH --time=1: 00: 00
+#SBATCH --mem=2G
+#SBATCH --partition=pcourseb
+#SBATCH --output=annVar_%j.out
+#SBATCH --error=annVar_%j.err
 
 # This line creates a shortcut called 'snpEff' for running the SnpEff program
 snpEff="apptainer exec -B $TMPDIR: /tmp /mnt/containers/apptainer/snpeff: 5.2--hdfd78af_1 snpEff"

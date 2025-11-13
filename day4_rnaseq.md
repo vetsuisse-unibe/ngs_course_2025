@@ -1,11 +1,11 @@
 # Differential expression using RNA-seq
 For this exercise we will use the datasets from the study [GSE52194](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52194)
 
-The results of the analysis of this dataset had been published in the following paper https: //www.nature.com/articles/srep01689
+The results of the analysis of this dataset had been published in the following paper https://www.nature.com/articles/srep01689
 
 We will use a subset only for the analysis.
 
-1. Fastq files can be downloaded through Gene Expression Omnibus (GEO): GSE52194 (https: //www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52194)
+1. Fastq files can be downloaded through Gene Expression Omnibus (GEO): GSE52194 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52194)
 2. The libaray layout is paired sequencing
 3. Library prep protocol did not preserve information on the transcribed strand. (non-stranded)
 
@@ -28,24 +28,29 @@ In order reduce run times again we have subset of clean reads only for chr22 at 
 ## 1️⃣  Mapping
 Create the following directory structure: course/RNA_seq/mapping.
 
-```
-mkdir -p RNA_seq/mapping
-cd RNA_seq/mapping
+```shell
+cd course
+mkdir -p RNA_seq/scripts
+mkdir -p RNA_seq/reads
+mkdir -p RNA_seq/logs
+mkdir -p RNA_seq/mapped_files
+mkdir -p RNA_seq/feature_counts
+cd RNA_seq/reads
 ```
 
-Due to time constraints, you  will  analyze  only one sample.  Choose one of the paired-end reads samples from the folder /data/courses/courseB/RNA-seq/reads directory and copy its files into your course/RNA_seq/mapping directory
+There are three replicates for each condition. Due to time constraints, you  will  analyze  only one sample.  Choose one of the paired-end reads samples from the folder /data/courses/courseB/RNA-seq/reads directory and copy its files into your course/RNA_seq/mapping directory. In the script below replace the sample name (HER21)with the one you have chosen.
 
 ```
-cp /data/courses/courseB/RNA-seq/reads/*_R*.fastq.gz  .
+cp /data/courses/courseB/RNA-seq/reads/HER21*_R*.fastq.gz  .
+cd ../scripts
 ```
 
 We will map these human breast cancer RNA-seq reads to the human reference genome (GRCh38) using the [HiSat2 algorithm](https://ccb.jhu.edu/software/hisat2/manual.shtml). HiSat2, which succeeds TopHat2, is a BWT-based aligner distinguished by its use of two indexing systems (global and local) to efficiently handle two types of reads: those that map to exons and those that span one or more splice junctions.
 
-Write a job script and submit the mapping job to the cluster using sbatch.
+Write a job script and submit the mapping job to the cluster using sbatch. Save this file as hisat2.sh in the course/RNA_seq/scripts directory.
 
 ```
-
-# !/bin/bash
+#!/bin/bash
 #SBATCH --mail-user=<your.email@example.com>
 #SBATCH --mail-type=fail,end
 #SBATCH --time=3:00:00
@@ -55,11 +60,11 @@ Write a job script and submit the mapping job to the cluster using sbatch.
 #SBATCH --job-name=hisat2
 #SBATCH --cpus-per-task=4
 #SBATCH --partition=pcourseb
-#SBATCH --output=RNAseq_map_%j.out
-#SBATCH --error=RNAseq_map_%j.err
+#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load HISAT2/2.2.1-gompi-2021a
-hisat2 -x /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.dna.chromosome.22  -1 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R1.fastq.gz -2 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R2.fastq.gz -S HER21.sam -p 4
+hisat2 -x /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.dna.chromosome.22  -1 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R1.fastq.gz -2 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R2.fastq.gz -S /home/student47/course/RNA_seq/mapped_files/HER21.sam -p 4
 ```
 
 The SAM file output from HiSat2 must be converted to a BAM file and then sorted by chromosomal coordinates for all subsequent downstream analysis.
@@ -68,28 +73,28 @@ The SAM file output from HiSat2 must be converted to a BAM file and then sorted 
 Write a job script to convert the sam to bam file using _samtools view_ and _samtools sort_
 
 ```
-# !/bin/bash
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --time=3: 00: 00
-# SBATCH --mem=16G
-# SBATCH --output=bam.out
-# SBATCH --error=bam.err
-# SBATCH --job-name=view2bam
-# SBATCH --cpus-per-task=8
-# SBATCH --partition=pcourseb
-# SBATCH --output=idx_map_%j.out
-# SBATCH --error=idx_map_%j.err
+#!/bin/bash
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --time=3:00:00
+#SBATCH --mem=16G
+#SBATCH --output=bam.out
+#SBATCH --error=bam.err
+#SBATCH --job-name=view2bam
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=pcourseb
+#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load SAMtools/1.13-GCC-10.3.0
 
-samtools view -@8 -h -Sb -o HER21.bam HER21.sam
-samtools sort -@8 HER21.bam -o HER21.sorted.bam
+samtools view -@8 -h -Sb -o /home/student47/course/RNA_seq/mapped_files/HER21.bam /home/student47/course/RNA_seq/mapped_files/HER21.sam
+samtools sort -@8 /home/student47/course/RNA_seq/mapped_files/HER21.bam -o /home/student47/course/RNA_seq/mapped_files/HER21.sorted.bam
 ```
 
 Always verify the output and quality of your results before continuing the analysis. You can check the mapping quality by reviewing the summary statistics HiSat2 reported in its error file.
 
-The mapping stats for all files are available here /data/courses/courseB/RNA-seq/mappingstats.
+The mapping stats for all files are available here /data/courses/courseB/RNA-seq/mappingstats/
 
 Use those files and unix command line tools to answer the following questions
 - What is the highest/lowest overall alignment rate?
@@ -98,25 +103,23 @@ Use those files and unix command line tools to answer the following questions
 ### 3️⃣ Count reads aligned to genes
 To count the number of reads overlapping annotated genes we will use the [featureCounts algorithm](https://subread.sourceforge.net/featureCounts.html).
 
-The sorted BAM files for all samples, which are required for the feature counting step, have already been provided. You can use these files directly as input for your feature count tool.
+The sorted BAM files for all samples, which are required for the feature counting step, have already been provided. You can use these files directly as input for your feature count tool. Save this file as featureCounts.sh in the course/RNA_seq/scripts directory.
 
 ```
-# !/bin/bash
-# SBATCH --mail-user=<your.email@example.com>
-# SBATCH --mail-type=fail,end
-# SBATCH --time=10: 00: 00
-# SBATCH --mem=16G
-# SBATCH --output=featureCounts.out
-# SBATCH --error=featureCounts.err
-# SBATCH --job-name=featureCounts
-# SBATCH --cpus-per-task=8
-# SBATCH --partition=pcourseb
-# SBATCH --output=countRNA_%j.out
-# SBATCH --error=countRNA_%j.err
+#!/bin/bash
+#SBATCH --mail-user=<your.email@example.com>
+#SBATCH --mail-type=fail,end
+#SBATCH --time=10:00:00
+#SBATCH --mem=16G
+#SBATCH --job-name=featureCounts
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=pcourseb
+#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load Subread/2.0.3-GCC-10.3.0
 
-featureCounts -p -C -s 0 -T 8 -Q 10 --tmpDir .  -a  /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.98.gtf -t exon -g gene_id  -o output.txt  /data/courses/courseB/RNA-seq/mapping/HER21.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER22.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER23.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal1.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal2.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal3.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam
+featureCounts -p -C -s 0 -T 8 -Q 10 --tmpDir .  -a  /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.98.gtf -t exon -g gene_id  -o /home/student47/course/RNA_seq/feature_counts/output.txt  /data/courses/courseB/RNA-seq/mapping/HER21.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER22.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER23.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal1.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal2.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal3.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam
 ```
 
 The parameters used for featureCount is as follows:
@@ -131,9 +134,9 @@ The parameters used for featureCount is as follows:
 - -g Specify the attribute type used to group features (eg. exons) into meta-features (eg. genes)
 
 Check the output of featureCounts to address the following questions:
-- What proportion of reads overlaps with annotated genes in each sample?
-- How many reads, on average, are unassigned due to ambiguity? Can you think of situation when it may not be possible to assign a read unambiguously to a particular gene?
-- How many reads, on average, are unassigned due to multimapping? What does this mean?
+- How many reads overlaps with annotated genes in each sample?
+- How many reads, on average, are unassigned due to ambiguity? 
+- How many reads, on average, are unassigned due to multimapping? 
 
 ### 4️⃣ Differential expression.
 
@@ -144,13 +147,11 @@ For convience we have produced the full feature count file for all chromosomes, 
 Open R studio and in the text editor panel add the following R commands and run the commands in the console window.
 The first two lines below are to install the DeSeq2 package. If don't have it already.
 
-```
+```r
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager: :install("DESeq2")
-
-library(DESeq2)
 ```
 
 ### Prepare the data for analysis.
@@ -160,10 +161,11 @@ library(DESeq2)
 
 3. Create the DESeqDataSet object
 
-Note: the first command in R **setwd** should be given the full path to your _diffExp_ folder.
+Note: the first command in R **setwd** should be given the full path to your _diffExp_ folder. This folder is where you want add your results and plots of analysis on your local computer
 
 ```r
 setwd("diffExp")
+library(DESeq2)
 # The file contains gene expression counts from the three breast tissues
 countData<-read.table('https://github.com/vetsuisse-unibe/NGS-course-docs/raw/refs/heads/master/breastCancer.counts.forDESeq.txt', header=TRUE)
 # Set the row names of the data frame to be the gene IDs
@@ -224,7 +226,7 @@ The output will show:
 - lfcSE: standard error of the log2 fold change
 - stat: the test statistic used
 - pvalue: raw p-value
-- padj: p-value adjusted for multiple testing
+- padj: FDR value
 
 ### 6️⃣ Visualize results
 Plot 1: PCA using the 500 most variably expressed genes
@@ -254,7 +256,6 @@ p<-plotPCA(rld, intgroup=c("condition"))
 # ntop=500: uses only the top 500 most variable genes for the PCA
 # This helps focus on genes that show the most variation across samples
 print(p, ntop=500)
-
 ```
 
 ![PCAplot](images/PCAplot.png)
@@ -273,7 +274,6 @@ Plot 2: Mean expression against log-fold change. Genes with p-adjusted below alp
 # - Points above 0 on Y-axis: upregulated genes
 # - Points below 0 on Y-axis: downregulated genes
 plotMA(res, alpha=0.05)
-
 ```
 
 ![MAplot](images/MAplot.png)
@@ -311,13 +311,25 @@ hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
 # - Gene clustering (dendrogram on side)
 # - Relative expression levels (color intensity)
 heatmap.2(assay(rld)[select,], col = hmcol, trace="none", margin=c(10,6),labCol=colnames(dds), cexRow = 1/log10(length(select)))
-
 ```
 
 ![heatmap](images/heatmap.png)
 
 **Optional task: Try to recreate the VOLCANO PLOT looking at the [manual](http: //bioconductor.org/packages/release/bioc/html/DESeq2.html).**
+```r
+plot(TNBC_HER2$log2FoldChange, -log10(TNBC_HER2$pvalue), 
+     xlab="log2 Fold Change", ylab="-log10(p-value)",
+     pch=20, cex=0.5, col="gray")
 
+# Highlight significant genes
+points(TNBC_HER2$log2FoldChange[which(TNBC_HER2$padj < 0.05 & abs(TNBC_HER2$log2FoldChange) > 1)],
+       -log10(TNBC_HER2$pvalue[which(TNBC_HER2$padj < 0.05 & abs(TNBC_HER2$log2FoldChange) > 1)]),
+       col="red", pch=20, cex=0.5)
+
+# Add threshold lines
+abline(h=-log10(0.05), col="blue", lty=2)
+abline(v=c(-1, 1), col="blue", lty=2)
+```
 #### Pairwise contrasts
 Now take a closer look at the results and the normalised count data:
 
@@ -334,7 +346,6 @@ We can explicitly specify which levels we want to compare, as follows:
 
 ```r
 TNBC_HER2 <-results(dds, contrast=c('condition', 'TNBC', 'HER2' ))
-
 ```
 
 Let’s double-check that this really produces exactly the same results as before by comparing the log2 fold changes:
@@ -349,8 +360,7 @@ plot(res$log2FoldChange, TNBC_HER2$log2FoldChange, xlab='first analysis', ylab='
 
 Our variable ‘res’ contains only the results from the test for differential expression. Before we export this as a table, we add the original counts for each gene in each sample. We then export the original table and a table sorted by adjusted P-values
 
-```
-
+```r
 combined <- cbind(counts(dds), as.data.frame(res)) # This assumes that the genes are in the same order in both tables!
 # alteratively, we could use the normalised counts by using counts(dds, normalized=TRUE)
 write.table(combined, 'MyResults.txt', quote=FALSE, row.names=TRUE, sep='\t')

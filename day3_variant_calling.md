@@ -254,7 +254,7 @@ $snpEff download \
 # Annotate your variants using the downloaded database
 $snpEff eff \
     -dataDir /home/<student>/course/variantCalling/variants \
-    CanFam3.1.86 ../variants/BT.flt.var.vcf > ../variants/BT.ann.vcf
+    CanFam3.1.99 ../variants/BT.flt.var.vcf > ../variants/BT.ann.vcf
 ```
 
 The output VCF file has an extra field "ANN"

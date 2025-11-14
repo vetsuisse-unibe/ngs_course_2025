@@ -60,11 +60,11 @@ Write a job script and submit the mapping job to the cluster using sbatch. Save 
 #SBATCH --job-name=hisat2
 #SBATCH --cpus-per-task=4
 #SBATCH --partition=pcourseb
-#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
-#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
+#SBATCH --output=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load HISAT2/2.2.1-gompi-2021a
-hisat2 -x /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.dna.chromosome.22  -1 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R1.fastq.gz -2 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R2.fastq.gz -S /home/student47/course/RNA_seq/mapped_files/HER21.sam -p 4
+hisat2 -x /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.dna.chromosome.22  -1 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R1.fastq.gz -2 /data/courses/courseB/RNA-seq/reads/HER21_chr22_R2.fastq.gz -S /home/<student>/course/RNA_seq/mapped_files/HER21.sam -p 4
 ```
 
 The SAM file output from HiSat2 must be converted to a BAM file and then sorted by chromosomal coordinates for all subsequent downstream analysis.
@@ -83,13 +83,13 @@ Write a job script to convert the sam to bam file using _samtools view_ and _sam
 #SBATCH --job-name=view2bam
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=pcourseb
-#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
-#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
+#SBATCH --output=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load SAMtools/1.13-GCC-10.3.0
 
-samtools view -@8 -h -Sb -o /home/student47/course/RNA_seq/mapped_files/HER21.bam /home/student47/course/RNA_seq/mapped_files/HER21.sam
-samtools sort -@8 /home/student47/course/RNA_seq/mapped_files/HER21.bam -o /home/student47/course/RNA_seq/mapped_files/HER21.sorted.bam
+samtools view -@8 -h -Sb -o /home/<student>/course/RNA_seq/mapped_files/HER21.bam /home/<student>/course/RNA_seq/mapped_files/HER21.sam
+samtools sort -@8 /home/<student>/course/RNA_seq/mapped_files/HER21.bam -o /home/<student>/course/RNA_seq/mapped_files/HER21.sorted.bam
 ```
 
 Always verify the output and quality of your results before continuing the analysis. You can check the mapping quality by reviewing the summary statistics HiSat2 reported in its error file.
@@ -114,12 +114,12 @@ The sorted BAM files for all samples, which are required for the feature countin
 #SBATCH --job-name=featureCounts
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=pcourseb
-#SBATCH --output=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.out
-#SBATCH --error=/home/student47/course/RNA_seq/logs/RNAseq_map_%j.err
+#SBATCH --output=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.out
+#SBATCH --error=/home/<student>/course/RNA_seq/logs/RNAseq_map_%j.err
 
 module load Subread/2.0.3-GCC-10.3.0
 
-featureCounts -p -C -s 0 -T 8 -Q 10 --tmpDir .  -a  /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.98.gtf -t exon -g gene_id  -o /home/student47/course/RNA_seq/feature_counts/output.txt  /data/courses/courseB/RNA-seq/mapping/HER21.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER22.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER23.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal1.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal2.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal3.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam
+featureCounts -p -C -s 0 -T 8 -Q 10 --tmpDir .  -a  /data/courses/courseB/RNA-seq/reference/Homo_sapiens.GRCh38.98.gtf -t exon -g gene_id  -o /home/<student>/course/RNA_seq/feature_counts/output.txt  /data/courses/courseB/RNA-seq/mapping/HER21.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER22.sorted.bam /data/courses/courseB/RNA-seq/mapping/HER23.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/NonTNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal1.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal2.sorted.bam /data/courses/courseB/RNA-seq/mapping/Normal3.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC1.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC2.sorted.bam /data/courses/courseB/RNA-seq/mapping/TNBC3.sorted.bam
 ```
 
 The parameters used for featureCount is as follows:
